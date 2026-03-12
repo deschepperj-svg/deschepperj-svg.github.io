@@ -35,6 +35,7 @@
       box-shadow: 0 1px 6px rgba(0,0,0,0.2);
       font-family: Arial, sans-serif;
       font-size: 14px;
+      max-width: 320px;
     }
   </style>
 </head>
@@ -49,11 +50,29 @@
   </script>
 
   <script>
-    const map = L.map('map').setView([51.0378, 3.7958], 12);
+    // Centrum op Heusden
+    const heusdenCenter = [51.0378, 3.8075];
+
+    // Begrenzing rond Heusden / directe omgeving
+    const heusdenBounds = L.latLngBounds(
+      [51.0150, 3.7700],  // zuidwest
+      [51.0550, 3.8450]   // noordoost
+    );
+
+    const map = L.map('map', {
+      center: heusdenCenter,
+      zoom: 14,
+      minZoom: 14,
+      maxZoom: 18,
+      maxBounds: heusdenBounds,
+      maxBoundsViscosity: 1.0
+    });
+
     let marker = null;
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
+      noWrap: true,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
